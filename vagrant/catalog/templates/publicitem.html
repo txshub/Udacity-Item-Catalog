@@ -8,15 +8,13 @@
 
 <header>
     <a class="catalog-title" href="{{ url_for('showLatest') }}">Item Catalog</a>
-    <a class="login-button" href="{{ url_for('gdisconnect') }}">Logout</a>
+    <a class="login-button" href="{{ url_for('showLogin') }}">Login</a>
 </header>
 
 <div class="wrap">
 
     <h2>{{ item.name }}</h2>
     <p class="description">{{ item.description }}</p>
-    <a class="my-button" href="{{ url_for('editItem', item_name=item.name) }}">Edit</a>
-    <a class="my-button" href="{{ url_for('deleteItem', item_name=item.name) }}">Delete</a>
 
 </div>
 

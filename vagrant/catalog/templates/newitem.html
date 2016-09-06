@@ -8,6 +8,7 @@
 
 <header>
     <a class="catalog-title" href="{{ url_for('showLatest') }}">Item Catalog</a>
+    <a class="login-button" href="{{ url_for('gdisconnect') }}">Logout</a>
 </header>
 
 <div class="wrap">
@@ -29,12 +30,12 @@
 
         <p class="element">Name</p>
         </br>
-        <input class="name-field" type="text" size="30" name="name" required>
+        <input class="name-field" type="text" size="30" name="name" value="{{ name }}" required>
         </br>
 
         <p class="element">Description</p>
         </br>
-        <textarea class="description-field" cols="30" name="description" required></textarea>
+        <textarea class="description-field" cols="30" name="description" required>{{ description }}</textarea>
         </br>
 
         <p class="element">Category</p>
