@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, jsonify,\
+    url_for, flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from flask import session as login_session
@@ -38,7 +39,8 @@ def catName(cat_id):
 @app.route('/login')
 def showLogin():
     state = ''.join(
-        random.choice(string.ascii_uppercase + string.digits) for x in range(32))
+        random.choice(
+            string.ascii_uppercase + string.digits) for x in range(32))
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
@@ -100,8 +102,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
-                                 200)
+        response = make_response(
+            json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -132,7 +134,9 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius:' \
+              ' 150px;-webkit-border-radius: 150px;-moz-border-radius:' \
+              ' 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     return output
 
@@ -170,7 +174,8 @@ def gdisconnect():
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' \
+          % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     if result['status'] == '200':
@@ -181,8 +186,6 @@ def gdisconnect():
         del login_session['email']
         del login_session['picture']
 
-        # response = make_response(json.dumps('Successfully disconnected.'), 200)
-        # response.headers['Content-Type'] = 'application/json'
         return redirect(url_for('showLatest'))
     else:
         # For whatever reason, the given token was invalid.
@@ -207,9 +210,13 @@ def showLatest():
     items = session.query(Item).order_by(Item.id.desc()).limit(10)
     title = "Latest items"
     if 'username' not in login_session:
-        return render_template('publicshowitems.html', categories=categories, items=items, title=title, latest=True, catName=catName)
+        return render_template(
+            'publicshowitems.html', categories=categories,
+            items=items, title=title, latest=True, catName=catName)
     else:
-        return render_template('showitems.html', categories=categories, items=items, title=title, latest=True, catName=catName)
+        return render_template(
+            'showitems.html', categories=categories,
+            items=items, title=title, latest=True, catName=catName)
 
 
 @app.route('/catalog/category/<string:category_name>/')
@@ -220,9 +227,13 @@ def showCategory(category_name):
     items = session.query(Item.name).filter_by(category_id=category.id)
     title = category_name
     if 'username' not in login_session:
-        return render_template('publicshowitems.html', categories=categories, items=items, title=title)
+        return render_template(
+            'publicshowitems.html', categories=categories,
+            items=items, title=title)
     else:
-        return render_template('showitems.html', categories=categories, items=items, title=title)
+        return render_template(
+            'showitems.html', categories=categories,
+            items=items, title=title)
 
 
 @app.route('/catalog/new/', methods=['GET', 'POST'])
@@ -239,7 +250,9 @@ def newItem():
         if not (category_id):
             error = "Make sure the item is within a category!"
             flash(error)
-            return render_template('newitem.html', categories=categories, name=name, description=description)
+            return render_template(
+                'newitem.html', categories=categories,
+                name=name, description=description)
 
         try:
             existent = session.query(Item).filter_by(name=name).one()
@@ -248,14 +261,21 @@ def newItem():
         if existent:
             error = "There is already one item with the same name!"
             flash(error)
-            return render_template('newitem.html', categories=categories, name=name, description=description)
+            return render_template(
+                'newitem.html', categories=categories,
+                name=name, description=description)
 
-        newItem = Item(name=name, description=description, category_id=category_id, user_id=login_session['user_id'])
+        newItem = Item(
+            name=name,
+            description=description,
+            category_id=category_id,
+            user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         flash("Item successfuly added!")
         category_name = catName(category_id)
-        return redirect(url_for('showCategory', category_name=category_name))
+        return redirect(
+            url_for('showCategory', category_name=category_name))
     else:
         return render_template('newitem.html', categories=categories)
 
@@ -264,7 +284,8 @@ def newItem():
 def showItem(item_name):
     """The page displaying a specific item"""
     item = session.query(Item).filter_by(name=item_name).one()
-    if 'username' not in login_session or item.user_id != login_session['user_id']:
+    if 'username' not in login_session or \
+            item.user_id != login_session['user_id']:
         return render_template('publicitem.html', item=item)
     else:
         return render_template('item.html', item=item)
@@ -278,7 +299,9 @@ def editItem(item_name):
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to edit this item.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() " \
+               "{alert('You are not authorized to edit this item.');}" \
+               "</script><body onload='myFunction()''>"
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
@@ -291,7 +314,8 @@ def editItem(item_name):
         if existent and not name == item.name:
             error = "There is already one item with the same name!"
             flash(error)
-            return render_template('edititem.html', categories=categories, item=item)
+            return render_template(
+                'edititem.html', categories=categories, item=item)
 
         item.name = name
         item.description = description
@@ -302,7 +326,8 @@ def editItem(item_name):
         category_name = catName(category_id)
         return redirect(url_for('showCategory', category_name=category_name))
     else:
-        return render_template('edititem.html', categories=categories, item=item)
+        return render_template(
+            'edititem.html', categories=categories, item=item)
 
 
 @app.route('/catalog/item/<string:item_name>/delete/', methods=['GET', 'POST'])
@@ -312,13 +337,16 @@ def deleteItem(item_name):
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to delete this item.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() " \
+               "{alert('You are not authorized to delete this item.');}" \
+               "</script><body onload='myFunction()''>"
     if request.method == 'POST':
         category_name = catName(item.category_id)
         session.delete(item)
         session.commit()
         flash("Item successfuly deleted!")
-        return redirect(url_for('showCategory', category_name=category_name))
+        return redirect(
+            url_for('showCategory', category_name=category_name))
     else:
         return render_template('deleteitem.html', item=item)
 
