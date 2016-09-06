@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+<header>
+    <a class="catalog-title" href="{{ url_for('showLatest') }}">Item Catalog</a>
+</header>
+
+<div class="wrap">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <p>
+        {% for message in messages %}
+        <strong>{{message}}</strong>
+        </br>
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% endwith %}
+
+    <h2>Edit item: {{ item.name }}</h2>
+
+    <form action="{{ url_for('editItem', item_name=item.name) }}" method="post">
+
+        <p class="element">New name:</p>
+        </br>
+        <input class="name-field" type="text" size="30" name="name" value="{{ item.name }}" required>
+        </br>
+
+        <p class="element">New description:</p>
+        </br>
+        <textarea class="description-field" cols="30" name="description" required>{{ item.description }}</textarea>
+        </br>
+
+        <p class="element">New cathegory:</p>
+        </br>
+        <select class="select-field" name="category">
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == item.category_id %} selected="selected" {% endif %}>
+                {{ category.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        </br></br>
+
+        <input class="my-button" type="submit" value="Submit changes">
+        <a class="my-button" href="{{ url_for('showItem', item_name=item.name) }}">Cancel</a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

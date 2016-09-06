@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+<header>
+    <a class="catalog-title" href="{{ url_for('showLatest') }}">Item Catalog</a>
+</header>
+
+<div class="wrap">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <p>
+        {% for message in messages %}
+        <strong>{{message}}</strong>
+        </br>
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% endwith %}
+
+    <h2>New Item</h2>
+
+    <form action="{{ url_for('newItem') }}" method="post">
+
+        <p class="element">Name</p>
+        </br>
+        <input class="name-field" type="text" size="30" name="name" required>
+        </br>
+
+        <p class="element">Description</p>
+        </br>
+        <textarea class="description-field" cols="30" name="description" required></textarea>
+        </br>
+
+        <p class="element">Category</p>
+        </br>
+        <select class="select-field" name="category">
+            <option value="" selected="selected">Select...</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+
+        </br></br>
+
+        <input class="my-button" type="submit" value="Create">
+        <a class="my-button" href="{{ url_for('showLatest') }}">Cancel</a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

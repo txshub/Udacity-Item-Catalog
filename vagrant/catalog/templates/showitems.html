@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+<header>
+    <a class="catalog-title" href="{{ url_for('showLatest') }}">Item Catalog</a>
+    <a class="login-button" href="">Login</a>
+</header>
+
+<a class="my-button" href="{{ url_for('newItem') }}">Add a new item</a>
+    </br>
+
+<div class="wrap">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <p>
+        {% for message in messages %}
+        <strong>{{message}}</strong>
+        </br>
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% endwith %}
+
+    <div class="left_col">
+
+        <h2>Categories</h2>
+
+        {% for category in categories %}
+        <a class="element" href="{{ url_for('showCategory', category_name=category.name) }}">
+            {{ category.name }}
+        </a>
+        </br>
+        {% endfor %}
+
+    </div>
+
+    <div class="right_col">
+
+        <h2>{{ title }}</h2>
+
+        {% for item in items %}
+        <a class="element" href="{{ url_for('showItem', item_name=item.name) }}">
+            {{ item.name }}
+        </a>
+        {% if latest %}
+        <div class="element-cat">({{ catName(item.category_id) }})</div>
+        {% endif %}
+        </br>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

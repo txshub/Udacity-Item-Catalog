@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #E8BC93;
+    text-align: center;
+}
+
+header {
+    background-color: #101425;
+    padding: 1%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+h2 {
+    font-family: sans-serif;
+    font-size: 30px;
+    color: #101425;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.wrap {
+    width: 80%;
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #101425;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: left;
+}
+
+.left_col {
+    float: left;
+    width: 20%;
+    text-align: left;
+    padding-left: 70px;
+    display: inline-block;
+}
+
+.right_col {
+    float: right;
+    width: 60%;
+    text-align: left;
+    padding-left: 70px;
+    display: inline-block;
+    border-left-style: solid;
+    border-left-width: 3px;
+    border-left-color: #E8BC93;
+}
+
+.catalog-title {
+    font-family: sans-serif;
+    font-size: 40px;
+    color: #E97F1C;
+    text-decoration: none;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: #E97F1C;
+    background-color: white;
+    padding: 8px;
+}
+
+.element {
+    text-decoration: none;
+    color: #2D516A;
+    font-family: sans-serif;
+    font-size: 20px;
+    display: inline-block;
+    margin: 5px;
+}
+
+.element-cat {
+    color: #E8BC93;
+    font-family: sans-serif;
+    font-size: 20px;
+    display: inline-block;
+}
+
+.my-button {
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: #E97F1C;
+    border-radius: 5px;
+    padding: 8px;
+    display: inline-block;
+}
+
+.login-button {
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 20px;
+    color: #E97F1C;
+    background-color: white;
+    border-radius: 5px;
+    padding: 8px;
+    display: inline-block;
+    float: right;
+}
+
+.description {
+    font-family: sans-serif;
+    font-size: 20px;
+    color: #2D516A;
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+.name-field {
+    font-family: sans-serif;
+    font-size: 16px;
+    color: #101425;
+    border-radius: 5px;
+    border-color: #E97F1C;
+    border-width: 3px;
+}
+
+.description-field {
+    font-family: sans-serif;
+    font-size: 16px;
+    color: #101425;
+    border-radius: 5px;
+    border-color: #E97F1C;
+    border-width: 3px;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.select-field {
+    font-family: sans-serif;
+    font-size: 16px;
+    color: #101425;
+    border-radius: 5px;
+    border-color: #E97F1C;
+    border-width: 3px;
+    background-color: white;
+}
